@@ -1,2 +1,3 @@
 # Lol_Research
-New new new new project ...
+1] Connection à l'api Riot depuis la main activity
+2] Afficher le profil et des infos type Icone d'invocateur / winrate / classement solo Q / ect sur la player_activity
