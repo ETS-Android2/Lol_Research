@@ -10,7 +10,7 @@
 
 
     <EditText
-        android:id="@+id/editTextTextPersonName"
+        android:id="@+id/editTextSummonerName"
         android:layout_width="228dp"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
