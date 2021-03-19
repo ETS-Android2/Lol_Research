@@ -86,6 +86,9 @@ public class MainActivity extends AppCompatActivity {
                         }
                         Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
                         Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.question_mark).into(Summoner_Icon);
+
+                        /*Summoner_Icon.setImageResource(R.drawable.newimage);*/
+
                         Summoner_Icon.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {
