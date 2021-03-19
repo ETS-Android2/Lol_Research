@@ -31,9 +31,13 @@ import java.net.URL;
 
 
 public class MainActivity extends AppCompatActivity {
-    public static final String EXTRA_MESSAGE = "com.example.Lol_Research.MESSAGE";
+    public static final String EXTRA_NAME = "com.example.Lol_Research.MESSAGE";
+    public static final String EXTRA_ACCOUNTID = "com.example.Lol_Research.MESSAGE2";
+    public static final String EXTRA_ICONID = "com.example.Lol_Research.MESSAGE3";
+    public static final String EXTRA_SUMMONERLVL = "com.example.Lol_Research.MESSAGE4";
+
     EditText Summoner_Name;
-    ImageView Summoner_Icon, Summoner_Icon2;
+    ImageView Summoner_Icon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,16 +50,14 @@ public class MainActivity extends AppCompatActivity {
 
     /** Call when research button ("Go !") is taped by the user */
     public void researchPlayer(View view) {
-        /**
-         * Intent intent = new Intent(this, PlayerActivity.class);
-         // pass the summoner name to the new activity
-         intent.putExtra(EXTRA_MESSAGE, Summoner_Name.getText().toString());
-         // start the new activity
-         startActivity(intent);**/
+        Intent intent = new Intent(this, PlayerActivity.class);
+
+
+
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         // first part : api url (with correct server region  [euw1 / or other] + Summoner_Name (typed in editText) + riot key api (change every 24 hours so need to specify it to our teacher)
-        String url = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + Summoner_Name.getText().toString() + "?api_key=RGAPI-b55ca9cb-01d9-41a6-b9e3-ce1d3fb22c3d";
+        String url = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + Summoner_Name.getText().toString() + "?api_key=RGAPI-0313ba92-cbd2-4164-aef0-1a3d6aa1a47c";
 
         // Request the JSON format of the summoner searched
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
@@ -63,17 +65,27 @@ public class MainActivity extends AppCompatActivity {
                     String SummonerName ="";
                     String SummonerLvl ="";
                     String SummonerIconID ="";
+                    String  AccountID="";
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             SummonerName =  response.getString("name");
                             SummonerLvl = response.getString("summonerLevel");
                             SummonerIconID = response.getString("profileIconId");
+                            AccountID = response.getString("accountId");
+
+                            // pass the summoner name to the new activity
+                            intent.putExtra(EXTRA_NAME, SummonerName);
+                            intent.putExtra(EXTRA_ACCOUNTID, AccountID);
+                            intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
+                            intent.putExtra(EXTRA_ICONID, SummonerIconID);
+                            // start the new activity
+                            startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
                         Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
-                        Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.ic_launcher_background).into(Summoner_Icon);
+                        Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.question_mark).into(Summoner_Icon);
                         Summoner_Icon.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {
