@@ -20,6 +20,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.JsonRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -27,17 +28,19 @@ import org.json.JSONObject;
 
 import java.net.URL;
 
+
+
 public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_MESSAGE = "com.example.Lol_Research.MESSAGE";
     EditText Summoner_Name;
-    ImageView Summoner_Icon;
+    ImageView Summoner_Icon, Summoner_Icon2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Summoner_Name = findViewById(R.id.editTextSummonerName);
-        Summoner_Icon = findViewById(R.id.imageView2);
+        Summoner_Icon = findViewById(R.id.ImageView);
 
     }
 
@@ -69,10 +72,8 @@ public class MainActivity extends AppCompatActivity {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-
                         Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
-
-                        Summoner_Icon.setImageResource(R.drawable.newimage);
+                        Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.ic_launcher_background).into(Summoner_Icon);
                         Summoner_Icon.setVisibility(View.VISIBLE);
                     }
                 }, new Response.ErrorListener() {

@@ -40,10 +40,19 @@
         android:text="@string/button_research" />
 
     <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/ImageView"
+        android:layout_width="238dp"
+        android:layout_height="434dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginEnd="94dp"
+        android:layout_marginRight="94dp"
+        android:layout_marginBottom="337dp"
         android:visibility="gone"
-        app:srcCompat="@drawable/image" />
+ />
+
+
+
 
 </RelativeLayout>
