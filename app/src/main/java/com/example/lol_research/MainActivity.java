@@ -35,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_ACCOUNTID = "com.example.Lol_Research.MESSAGE2";
     public static final String EXTRA_ICONID = "com.example.Lol_Research.MESSAGE3";
     public static final String EXTRA_SUMMONERLVL = "com.example.Lol_Research.MESSAGE4";
+    public static final String EXTRA_SUMMONERID = "";
 
     public String summId = "";
 
@@ -63,31 +64,42 @@ public class MainActivity extends AppCompatActivity {
         String url = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + Summoner_Name.getText().toString() + "?api_key=RGAPI-261e279f-b4b2-4733-bed7-8ec331ae2678";
 
         // Request the JSON format of the summoner searched
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+       JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
                 (Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
                     String SummonerName ="";
                     String SummonerLvl ="";
                     String SummonerIconID ="";
+                    String SummonerID="";
                     String  AccountID="";
+
+
                     @Override
                     public void onResponse(JSONObject response) {
                         try {
                             SummonerName =  response.getString("name");
                             SummonerLvl = response.getString("summonerLevel");
                             SummonerIconID = response.getString("profileIconId");
+                            SummonerID = response.getString("id");
+                            String test = response.getString("puuid");
+
                             AccountID = response.getString("accountId");
+                            Toast.makeText(MainActivity.this, SummonerID, Toast.LENGTH_LONG).show();
+                            Toast.makeText(MainActivity.this, test, Toast.LENGTH_LONG).show();
+
 
                             // pass the summoner name to the new activity
                             intent.putExtra(EXTRA_NAME, SummonerName);
                             intent.putExtra(EXTRA_ACCOUNTID, AccountID);
                             intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
                             intent.putExtra(EXTRA_ICONID, SummonerIconID);
+                            intent.putExtra(EXTRA_SUMMONERID, SummonerID);
+
                             // start the new activity
                             startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
+
                         Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.question_mark).into(Summoner_Icon);
 
                         /*Summoner_Icon.setImageResource(R.drawable.newimage);*/
