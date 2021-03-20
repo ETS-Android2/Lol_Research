@@ -190,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
                     String  AccountID="";
                     String GameType = "";
                     @Override
-                    public void onResponse(JSONObject response) {//maybe create another file for the fonction that will fetch acc info
+                    public void onResponse(JSONObject response) {//maybe create another file for the function that will fetch acc info
                         try {
                             /*SummonerName =  response.getString("name");
                             SummonerLvl = response.getString("summonerLevel");
