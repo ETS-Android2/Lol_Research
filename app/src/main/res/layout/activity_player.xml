@@ -194,7 +194,7 @@ tools:context =  ".PlayerActivity">
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/textViewWinrate"
+                android:id="@+id/textViewTier"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"
@@ -206,7 +206,7 @@ tools:context =  ".PlayerActivity">
                 android:textColor="@color/black" />
 
             <TextView
-                android:id="@+id/textViewRole"
+                android:id="@+id/textViewWinrate"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_column="1"

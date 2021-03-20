@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
         // first part : api url (with correct server region  [euw1 / or other] + Summoner_Name (typed in editText) + riot key api (change every 24 hours so need to specify it to our teacher)
-        String url = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + Summoner_Name.getText().toString() + "?api_key=RGAPI-261e279f-b4b2-4733-bed7-8ec331ae2678";
+        String url = "https://euw1.api.riotgames.com/lol/summoner/v4/summoners/by-name/" + Summoner_Name.getText().toString() + "?api_key=RGAPI-f1d78707-bb91-458d-96f0-0b972fd53058";
 
         // Request the JSON format of the summoner searched
        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest

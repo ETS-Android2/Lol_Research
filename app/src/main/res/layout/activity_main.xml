@@ -20,7 +20,7 @@
         android:layout_marginRight="37dp"
         android:layout_marginBottom="258dp"
         android:onClick="researchPlayerInGame"
-        android:text="GAME !" />
+        android:text="@string/button_ingame" />
 
     <EditText
         android:id="@+id/editTextSummonerName"
@@ -50,7 +50,7 @@
         android:layout_marginRight="37dp"
         android:layout_marginBottom="322dp"
         android:onClick="researchPlayer"
-        android:text="@string/button_research" />
+        android:text="@string/button_profil" />
 
     <ImageView
         android:id="@+id/ImageView"

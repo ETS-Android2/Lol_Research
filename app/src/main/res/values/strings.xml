@@ -1,7 +1,8 @@
 <resources>
     <string name="app_name">Lol_Research</string>
     <string name="hint_research">Nom d\'invocateur à chercher</string>
-    <string name="button_research">Go !</string>
+    <string name="button_profil">Profile</string>
+    <string name="button_ingame">En Jeu ?</string>
     <string name="player_name">Profil de : </string>
 
 </resources>

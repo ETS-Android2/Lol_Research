@@ -38,6 +38,8 @@ public class PlayerActivity extends AppCompatActivity {
     ImageView SummonerIcon;
     TextView SummonerLvl;
     TextView SummonerRank;
+    TextView SummonerWinrate;
+    TextView SummonerTier;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,8 @@ public class PlayerActivity extends AppCompatActivity {
         SummonerIcon = findViewById(R.id.imageViewIcon);
         SummonerLvl = findViewById(R.id.textViewLvl);
         SummonerRank = findViewById(R.id.textViewRank);
-        Toast.makeText(PlayerActivity.this, Pass_Lvl, Toast.LENGTH_SHORT).show();
+        SummonerWinrate= findViewById(R.id.textViewWinrate);
+        SummonerTier = findViewById(R.id.textViewTier);
 
         Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+Pass_IconID+".png").placeholder(R.drawable.question_mark).into(SummonerIcon);
         SummonerName.setText(Pass_Name);
@@ -65,23 +68,28 @@ public class PlayerActivity extends AppCompatActivity {
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(PlayerActivity.this);
-        Toast.makeText(PlayerActivity.this, Pass_Name, Toast.LENGTH_SHORT).show();
+
         Toast.makeText(PlayerActivity.this, Pass_SummonerID, Toast.LENGTH_SHORT).show();
-        Pass_SummonerID = "G57MR5MrsO99omoCAgYRB_cqzC2INZg648vhAsGCqo7e6vc";
         // first part : api url (with correct server region  [euw1 / or other] + Summoner_Name (typed in editText) + riot key api (change every 24 hours so need to specify it to our teacher)
-        String urlPlayer = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/"+Pass_SummonerID+"?api_key=RGAPI-06b5f624-c861-40c1-8a7d-5b7f45e3a43a";
+        String urlPlayer = "https://euw1.api.riotgames.com/lol/league/v4/entries/by-summoner/"+Pass_SummonerID+"?api_key=RGAPI-f1d78707-bb91-458d-96f0-0b972fd53058";
 
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, urlPlayer, null, new Response.Listener<JSONArray>() {
             @Override
             public void onResponse(JSONArray response) {
-                String SummonerTier = "";
+                String Summoner_Tier = "";
+                String Summoner_Win = "", Summoner_Loose="", Summoner_Rank="";
                 try {
-                    JSONObject cityInfo = response.getJSONObject(0);
-                    SummonerTier = cityInfo.getString("tier");
+                    JSONObject CoolData = response.getJSONObject(0);
+                    Summoner_Tier = CoolData.getString("tier");
+                    Summoner_Win = CoolData.getString("wins");
+                    Summoner_Loose = CoolData.getString("losses");
+                    Summoner_Rank = CoolData.getString("rank");
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SummonerRank.setText(SummonerTier);
+                SummonerTier.setText(Summoner_Tier);
+                SummonerRank.setText(Summoner_Rank);
+                SummonerWinrate.setText(Summoner_Win +"W "+Summoner_Loose +"L");
             }
         }, new Response.ErrorListener() {
             @Override
