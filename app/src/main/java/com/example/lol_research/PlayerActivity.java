@@ -39,8 +39,8 @@ import java.util.List;
 public class PlayerActivity extends AppCompatActivity {
 
     public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
-    public static Integer NBR_Match = 2;
-
+    public static Integer NBR_Match = 0;
+    public static Integer NBR_MatchTotal = 0;
     EditText NBR_MatchHistorique;
     TextView SummonerName;
     ImageView SummonerIcon;
@@ -108,7 +108,7 @@ public class PlayerActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
-                    Toast.makeText(PlayerActivity.this,"No data take back from League V4 Api", Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(PlayerActivity.this,"No data take back from League V4 Api", Toast.LENGTH_SHORT).show();
 
                 }
                 if (Summoner_Tier!="") {
@@ -147,8 +147,15 @@ public class PlayerActivity extends AppCompatActivity {
         /** Instantiate the RequestQueue. */
         RequestQueue queue = Volley.newRequestQueue(PlayerActivity.this);
         String Pass_AccountID = textViewHidden.getText().toString();
-        NBR_Match = Integer.parseInt(NBR_MatchHistorique.getText().toString());
-        Toast.makeText(PlayerActivity.this,"Historique pour "+NBR_Match+" parties", Toast.LENGTH_LONG).show();
+        if (NBR_MatchHistorique.getText().toString().trim().length() == 0)
+        {
+
+            NBR_Match=0;
+        }
+        else {NBR_Match = Integer.parseInt(NBR_MatchHistorique.getText().toString());
+        NBR_MatchTotal = NBR_MatchTotal + NBR_Match;}
+        Toast.makeText(PlayerActivity.this,"Ajout de "+NBR_Match+" parties à l'historique", Toast.LENGTH_LONG).show();
+        Toast.makeText(PlayerActivity.this,"Historique pour "+NBR_MatchTotal+" parties", Toast.LENGTH_LONG).show();
         /** Connexion to Match V4 for player historique */
         String urlHisto = "https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+Pass_AccountID+"?api_key="+API_Key+"&endIndex="+NBR_Match;
 
