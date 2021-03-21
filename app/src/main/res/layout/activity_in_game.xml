@@ -35,4 +35,12 @@
         android:text="summ1"
         tools:layout_editor_absoluteX="47dp"
         tools:layout_editor_absoluteY="82dp" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/lv_playerList"
+        android:layout_width="410dp"
+        android:layout_height="591dp"
+        android:layout_marginTop="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,6 +1,8 @@
 package com.example.lol_research;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -19,14 +21,23 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class InGameActivity extends AppCompatActivity {
 
-    public static final String API_Key = "RGAPI-f25f07d1-2e4d-46bb-8e92-5be43b255f9b";
+    public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
 
     TextView SummonerName;
     TextView GameType;
     TextView GameMode;
     TextView TVSumm1;
+
+    List<Player> playerList = new ArrayList<Player>();//List that will contain the players' info
+
+    private RecyclerView recyclerView;
+    private RecyclerView.Adapter mAdapter;
+    private RecyclerView.LayoutManager layoutManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,7 +79,18 @@ public class InGameActivity extends AppCompatActivity {
                     Summoner_Lp = CoolData.getString("leaguePoints");*/
                     JSONArray Players = response.getJSONArray("participants");
                     //JSONObject player = Players.getJSONObject(0);
-                    Summoner_Name1 = Players.getJSONObject(0).getString("summonerName");
+                    for (int i = 0; i<10; i++) {//we stop at 10 because that is usually the number of players in a game
+                        Summoner_Name1 = Players.getJSONObject(i).getString("summonerName");
+                        playerList.add(new Player(0, Summoner_Name1));
+                    }
+                    recyclerView = findViewById(R.id.lv_playerList);//define the recycle view that will contain the player list
+                    recyclerView.setHasFixedSize(true);
+                    // use a linear layout manager
+                    layoutManager = new LinearLayoutManager(InGameActivity.this);
+                    recyclerView.setLayoutManager(layoutManager);
+                    // specify an adapter
+                    mAdapter = new RecycleViewAdapterPlayer(playerList, InGameActivity.this);
+                    recyclerView.setAdapter(mAdapter);
 
 
                 } catch (JSONException e) {
@@ -94,6 +116,9 @@ public class InGameActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
+
+
+
 /*
         JsonArrayRequest requestPlayers = new JsonArrayRequest(Request.Method.GET, urlPlayer, null, new Response.Listener<JSONArray>() {
             @Override
