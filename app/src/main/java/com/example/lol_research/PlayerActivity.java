@@ -66,7 +66,7 @@ public class PlayerActivity extends AppCompatActivity {
         setContentView(R.layout.activity_player);
 
         NBR_MatchHistorique = findViewById(R.id.editTextNbrHisto);
-
+        NBR_MatchTotal = 0;
 
         /** Get the Intent that started this activity and extract the string */
         Intent intent = getIntent();

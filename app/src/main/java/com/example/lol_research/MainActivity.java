@@ -1,7 +1,10 @@
 package com.example.lol_research;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Summoner_Name = findViewById(R.id.editTextSummonerName);
         Summoner_Icon = findViewById(R.id.ImageView);
+        Toast.makeText(MainActivity.this,"Permission accès caméra : accordée", Toast.LENGTH_SHORT).show();
 
     }
 
