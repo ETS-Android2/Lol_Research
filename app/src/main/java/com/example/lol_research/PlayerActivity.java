@@ -42,7 +42,7 @@ import java.util.List;
 
 public class PlayerActivity extends AppCompatActivity {
 
-    public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
+    public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
     public static Integer NBR_Match = 0;
     public static Integer NBR_MatchTotal = 0;
     EditText NBR_MatchHistorique;

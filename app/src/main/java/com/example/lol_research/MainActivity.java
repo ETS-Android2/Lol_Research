@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_SUMMONERLVL = "com.example.Lol_Research.MESSAGE4";
     public static final String EXTRA_SUMMONERID = "";
     public static final String EXTRA_GAMETYPE = "";
-    public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
+    public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
 
     public String summId = "";
 
