@@ -32,6 +32,7 @@ public class RecycleViewAdapterPlayer  extends RecyclerView.Adapter<RecycleViewA
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.tv_summName.setText(playerList.get(position).getSummonerName());
+        holder.tv_teamId.setText(playerList.get(position).getTeamName());
 
     }
 
@@ -42,10 +43,12 @@ public class RecycleViewAdapterPlayer  extends RecyclerView.Adapter<RecycleViewA
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         TextView tv_summName;
+        TextView tv_teamId;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             tv_summName = itemView.findViewById(R.id.tv_summName);
+            tv_teamId = itemView.findViewById(R.id.tv_teamId);
         }
     }
 }

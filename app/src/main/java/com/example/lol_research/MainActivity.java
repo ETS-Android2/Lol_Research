@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_SUMMONERLVL = "com.example.Lol_Research.MESSAGE4";
     public static final String EXTRA_SUMMONERID = "";
     public static final String EXTRA_GAMETYPE = "";
+
     public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
+
 
     public String summId = "";
 
@@ -167,20 +169,11 @@ public class MainActivity extends AppCompatActivity {
                                         @Override
                                         public void onResponse(JSONObject response) {//maybe create another file for the function that will fetch acc info
                                             try {
-                            /*SummonerName =  response.getString("name");
-                            SummonerLvl = response.getString("summonerLevel");
-                            SummonerIconID = response.getString("profileIconId");
-                            AccountID = response.getString("accountId");*/
                                                 GameType = response.getString("gameType");
                                                 //intent.putExtra(EXTRA_GAMETYPE, GameType);
                                                 intent.putExtra(EXTRA_SUMMONERID, summId);
 
 
-                                                // pass the summoner name to the new activity
-                            /*intent.putExtra(EXTRA_NAME, SummonerName);
-                            intent.putExtra(EXTRA_ACCOUNTID, AccountID);
-                            intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
-                            intent.putExtra(EXTRA_ICONID, SummonerIconID);*/
                                                 // start the new activity
 
                                                 startActivity(intent);
@@ -232,45 +225,3 @@ public class MainActivity extends AppCompatActivity {
 }
 
 
-
-/** Other Method to make the request to riot Api (in string format or array format)
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        Toast.makeText(MainActivity.this, "Searching the Summoner : " + response, Toast.LENGTH_SHORT).show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "error api", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        // Add the request to the RequestQueue.
-        queue.add(stringRequest);
-    }}
-  Get Array response, not working with riot api
-        JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, url, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String cityID = "";
-                try {
-                    JSONObject cityInfo = response.getJSONObject(0);
-                    cityID = cityInfo.getString("woeid");
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                Toast.makeText(MainActivity.this, "Summoner_name" + cityID, Toast.LENGTH_SHORT).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(MainActivity.this, "Nom d'invocateur incorrect", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        queue.add(request);
-    }
-}*/

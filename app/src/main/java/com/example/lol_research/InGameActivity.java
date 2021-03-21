@@ -13,7 +13,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
@@ -26,7 +25,9 @@ import java.util.List;
 
 public class InGameActivity extends AppCompatActivity {
 
+
     public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
+
 
     TextView SummonerName;
     TextView GameType;
@@ -51,7 +52,7 @@ public class InGameActivity extends AppCompatActivity {
 
         /** Initiate our View Variable */
         GameMode = findViewById(R.id.textViewGameMode);
-        TVSumm1 = findViewById(R.id.textViewSumm1);
+        TVSumm1 = findViewById(R.id.textView_gameTimer);
 
         /** Set The first part of our Table Value : From the previous activity **/
         //GameType.setText(Pass_GameType);
@@ -69,20 +70,19 @@ public class InGameActivity extends AppCompatActivity {
             public void onResponse(JSONObject response) {
                 String Summoner_Name1 = "";
                 String game_mode = "";
+                long gameLength = 0;
+                long teamId = 0;
                 //String Summoner_Win = "", Summoner_Loose="", Summoner_Rank="", Summoner_Lp="";
                 try {
                     game_mode = response.getString("gameMode");
-                    /*Summoner_Tier = CoolData.getString("tier");
-                    Summoner_Win = CoolData.getString("wins");
-                    Summoner_Loose = CoolData.getString("losses");
-                    Summoner_Rank = CoolData.getString("rank");
-                    Summoner_Lp = CoolData.getString("leaguePoints");*/
+                    gameLength = response.getLong("gameLength");
                     JSONArray Players = response.getJSONArray("participants");
-                    //JSONObject player = Players.getJSONObject(0);
                     for (int i = 0; i<10; i++) {//we stop at 10 because that is usually the number of players in a game
                         Summoner_Name1 = Players.getJSONObject(i).getString("summonerName");
-                        playerList.add(new Player(0, Summoner_Name1));
+                        teamId = Players.getJSONObject(i).getLong("teamId");
+                        playerList.add(new Player(0, Summoner_Name1,teamId));//we add every json object we got to the list, ie the 10 players
                     }
+                    //here we'll set up the RecycleViewAdapter so we can put the elements in the recycle list
                     recyclerView = findViewById(R.id.lv_playerList);//define the recycle view that will contain the player list
                     recyclerView.setHasFixedSize(true);
                     // use a linear layout manager
@@ -97,17 +97,19 @@ public class InGameActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 GameMode.setText(game_mode);
-                TVSumm1.setText(Summoner_Name1);
-                /*if (Summoner_Tier!="") {
-                    SummonerTier.setText(Summoner_Tier + " " + Summoner_Rank + " | " + Summoner_Lp + "points");
-                    SummonerWinrate.setText(Summoner_Win +"V | "+Summoner_Loose +"D");
-                    SummonerRank.setText("Midlaner");
+                //just for the sake of having a nice looking time
+                gameLength += 180;//The spec timer is approx 3 mins behind the real in game timer
+                if (gameLength<0) {
+                    TVSumm1.setText("Game timer : " + 0 + ":0" +0);//in game time in mins:sec
                 }
-                else{
-                    SummonerWinrate.setText("0V | 0D");
-                    SummonerTier.setText("Non Classé");
-                    SummonerRank.setText("Inconnu");}*/
-
+                else if(gameLength%60 <10){
+                    TVSumm1.setText("Game timer : " + gameLength/60 + ":0"+gameLength%60);//in game time in mins:sec
+                }
+                else
+                {
+                    TVSumm1.setText("Game timer : " + gameLength/60 + ":"+gameLength%60);//in game time in mins:sec
+                }
+                //
             }
         }, new Response.ErrorListener() {
             @Override
@@ -116,37 +118,6 @@ public class InGameActivity extends AppCompatActivity {
             }
         });
         queue.add(request);
-
-
-
-/*
-        JsonArrayRequest requestPlayers = new JsonArrayRequest(Request.Method.GET, urlPlayer, null, new Response.Listener<JSONArray>() {
-            @Override
-            public void onResponse(JSONArray response) {
-                String Summoner_Tier = "";
-                String Summoner_Win = "", Summoner_Loose="", Summoner_Rank="", Summoner_Lp="";
-                try {
-                    JSONArray Players = response.getJSONObject(0);
-                    Summoner_Tier = Players.getString("tier");
-                    Summoner_Win = Players.getString("wins");
-                    Summoner_Loose = Players.getString("losses");
-                    Summoner_Rank = Players.getString("rank");
-                    Summoner_Lp = CoolData.getString("leaguePoints");
-
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(InGameActivity.this, "Connexion Api Spectator V4 échec", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-*/
-
 
     }
 }
