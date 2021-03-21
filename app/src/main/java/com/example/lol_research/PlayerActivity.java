@@ -34,7 +34,7 @@ import java.net.URL;
 
 public class PlayerActivity extends AppCompatActivity {
 
-    public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
+    public static final String API_Key = "RGAPI-f25f07d1-2e4d-46bb-8e92-5be43b255f9b";
     TextView SummonerName;
     ImageView SummonerIcon;
     TextView SummonerLvl;

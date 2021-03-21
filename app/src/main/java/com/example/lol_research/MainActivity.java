@@ -36,12 +36,14 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_ICONID = "com.example.Lol_Research.MESSAGE3";
     public static final String EXTRA_SUMMONERLVL = "com.example.Lol_Research.MESSAGE4";
     public static final String EXTRA_SUMMONERID = "";
-    public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
+    public static final String EXTRA_GAMETYPE = "";
+    public static final String API_Key = "RGAPI-f25f07d1-2e4d-46bb-8e92-5be43b255f9b";
 
     public String summId = "";
 
     EditText Summoner_Name;
     ImageView Summoner_Icon;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -114,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
 
     /** Call when research button ("En jeu ?") is taped by the user */
     public void researchPlayerInGame(View view) {
-        Intent intent = new Intent(this, PlayerActivity.class);
+        Intent intent = new Intent(this, InGameActivity.class);
 
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(MainActivity.this);
@@ -142,11 +144,56 @@ public class MainActivity extends AppCompatActivity {
                             }*/
 
                             // pass the summoner name to the new activity
-                            intent.putExtra(EXTRA_NAME, SummonerName);
-                            intent.putExtra(EXTRA_ACCOUNTID, SID);
-                            intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
-                            intent.putExtra(EXTRA_ICONID, SummonerIconID);
+                            /*intent.putExtra(EXTRA_NAME, SummonerName);
+                            intent.putExtra(EXTRA_SUMMONERID, SID);*/
                             summId = SID;//we get the account's id
+
+                            String urlGame = "https://euw1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + summId + "?api_key="+API_Key;
+
+                            // Request the JSON format of the summoner searched
+                            JsonObjectRequest jsonObjectGameRequest = new JsonObjectRequest
+                                    (Request.Method.GET, urlGame, null, new Response.Listener<JSONObject>() {
+                                        String SummonerName ="";
+                                        String SummonerLvl ="";
+                                        String SummonerIconID ="";
+                                        String  AccountID="";
+                                        String GameType = "";
+                                        @Override
+                                        public void onResponse(JSONObject response) {//maybe create another file for the function that will fetch acc info
+                                            try {
+                            /*SummonerName =  response.getString("name");
+                            SummonerLvl = response.getString("summonerLevel");
+                            SummonerIconID = response.getString("profileIconId");
+                            AccountID = response.getString("accountId");*/
+                                                GameType = response.getString("gameType");
+                                                //intent.putExtra(EXTRA_GAMETYPE, GameType);
+                                                intent.putExtra(EXTRA_SUMMONERID, summId);
+
+
+                                                // pass the summoner name to the new activity
+                            /*intent.putExtra(EXTRA_NAME, SummonerName);
+                            intent.putExtra(EXTRA_ACCOUNTID, AccountID);
+                            intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
+                            intent.putExtra(EXTRA_ICONID, SummonerIconID);*/
+                                                // start the new activity
+
+                                                startActivity(intent);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                            Toast.makeText(MainActivity.this,  " Playing : " + GameType, Toast.LENGTH_SHORT).show();
+                                            //Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }, new Response.ErrorListener() {
+
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            // TODO: Handle error
+                                            Toast.makeText(MainActivity.this,"L'invocateur n'est pas en partie ou clef api déprécié", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                            queue.add(jsonObjectGameRequest);
                             // start the new activity
 
                             //startActivity(intent);
@@ -172,50 +219,7 @@ public class MainActivity extends AppCompatActivity {
         queue.add(jsonObjectRequest);
         //We will now try to access another API with the ID we just got
 
-        String urlGame = "https://euw1.api.riotgames.com/lol/spectator/v4/active-games/by-summoner/" + summId + "?api_key="+API_Key;
 
-        // Request the JSON format of the summoner searched
-        JsonObjectRequest jsonObjectGameRequest = new JsonObjectRequest
-                (Request.Method.GET, urlGame, null, new Response.Listener<JSONObject>() {
-                    String SummonerName ="";
-                    String SummonerLvl ="";
-                    String SummonerIconID ="";
-                    String  AccountID="";
-                    String GameType = "";
-                    @Override
-                    public void onResponse(JSONObject response) {//maybe create another file for the function that will fetch acc info
-                        try {
-                            /*SummonerName =  response.getString("name");
-                            SummonerLvl = response.getString("summonerLevel");
-                            SummonerIconID = response.getString("profileIconId");
-                            AccountID = response.getString("accountId");*/
-                            GameType = response.getString("gameType");
-
-
-                            // pass the summoner name to the new activity
-                            /*intent.putExtra(EXTRA_NAME, SummonerName);
-                            intent.putExtra(EXTRA_ACCOUNTID, AccountID);
-                            intent.putExtra(EXTRA_SUMMONERLVL, SummonerLvl);
-                            intent.putExtra(EXTRA_ICONID, SummonerIconID);*/
-                            // start the new activity
-
-                            //startActivity(intent);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        Toast.makeText(MainActivity.this,  " Playing : " + GameType, Toast.LENGTH_SHORT).show();
-                        //Toast.makeText(MainActivity.this, SummonerName + " " + SummonerLvl, Toast.LENGTH_SHORT).show();
-
-                    }
-                }, new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // TODO: Handle error
-                        Toast.makeText(MainActivity.this,"L'invocateur n'est pas en partie ou clef api déprécié", Toast.LENGTH_SHORT).show();
-                    }
-                });
-        queue.add(jsonObjectGameRequest);
     }
 
 
