@@ -4,4 +4,4 @@ Fonctionnalités :
 -	Affichage de son historique de parties modulables par une entré utilisateur, utilisation de Recycle View
 -	Recherche d’un joueur en partie, si celui-ci est bel et bien en partie, affichage de ses coéquipiers ainsi que certaines stats utile au joueur
 
-Attention clef temporaire pour accéder aux API Riot games : Contacter VUAGNAT-GUILLON Benoit pour obtenir une clef avant correction.
+# Attention clef temporaire pour accéder aux API Riot games : Contacter VUAGNAT-GUILLON Benoit pour obtenir une clef avant correction.
