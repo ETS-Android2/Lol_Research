@@ -3,6 +3,10 @@ package com.example.lol_research;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Random;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -136,9 +140,11 @@ public class PlayerActivity extends AppCompatActivity {
 
     }
 
-    private void fillMatchList(int i,String lane,String queue) {
-
-        Match matchX = new Match(i,"https://ddragon.leagueoflegends.com/cdn/11.6.1/img/champion/Aatrox.png",queue,lane);
+    private void fillMatchList(int i,String ChampionID,String lane,String queue) {
+        List<String> ChampList = Arrays.asList("Aatrox", "Ahri", "Akali", "Alistar","Amumu", "Anivia", "Annie", "Aphelios", "Ashe", "AurelionSol", "Azir", "Bard", "Blitzcrank", "Brand", "Braum", "Caitlyn", "Camille", "Cassiopeia", "Chogath","Corki", "Darius", "Diana", "Dr. Mundo", "Draven", "Ekko", "Elise", "Evelynn", "Ezreal", "Fiddlesticks", "Fiora", "Fizz", "Galio", "Gangplank", "Garen", "Gnar", "Gragas", "Graves", "Hecarim", "Heimerdinger", "Illaoi", "Irelia", "Ivern", "Janna", "JarvanIV", "Jax", "Jayce", "Jhin", "Jinx", "Kaisa", "Kalista", "Karma", "Karthus", "Kassadin", "Katarina", "Kayle", "Kayn", "Kennen", "Khazix", "Kindred", "Kled", "Kog'Maw", "LeBlanc", "Lee Sin", "Leona", "Lillia", "Lissandra", "Lucian", "Lulu", "Lux", "Malphite", "Malzahar", "Maokai", "MasterYi", "MissFortune", "Mordekaiser", "Morgana", "Nami", "Nasus", "Nautilus", "Neeko", "Nidalee", "Nocturne", "Nunu", "Olaf", "Orianna", "Ornn", "Pantheon", "Poppy", "Pyke", "Qiyana");
+        Random rand = new Random();
+        String randomChamp = ChampList.get(rand.nextInt(ChampList.size()));
+        Match matchX = new Match(i,"https://ddragon.leagueoflegends.com/cdn/11.6.1/img/champion/"+randomChamp+".png",queue,lane);
         matchList.add(matchX);
     }
 
@@ -219,9 +225,9 @@ public class PlayerActivity extends AppCompatActivity {
                                     queue = "Flex Q";
                                 }
                                 if (lane.equals("NONE")) {
-                                    fillMatchList(i, "Rôle : Inconnu", queue);
+                                    fillMatchList(i,ChampionID, "Rôle : Inconnu", queue);
                                 } else {
-                                    fillMatchList(i, "Rôle : " + lane, queue);
+                                    fillMatchList(i,ChampionID, "Rôle : " + lane, queue);
                                 }
                             }
                             // Our recyclerView
