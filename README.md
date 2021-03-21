@@ -1,3 +1,6 @@
 # Lol_Research
-1] Connection à l'api Riot depuis la main activity <br>
-2] Afficher le profil et des infos type Icone d'invocateur / winrate / classement solo Q / ect sur la player_activity
+Fonctionnalités : 
+-	Recherche d’un joueur par son pseudonyme : affichage de son profil et de ses stats
+-	Affichage de son historique de parties modulables par une entré utilisateur, utilisation de Recycle View
+-	Recherche d’un joueur en partie, si celui-ci est bel et bien en partie, affichage de ses coéquipiers ainsi que certaines stats utile au joueur
+
