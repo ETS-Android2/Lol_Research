@@ -96,6 +96,8 @@ public class MainActivity extends AppCompatActivity {
                             startActivity(intent);
                         } catch (JSONException e) {
                             e.printStackTrace();
+                            Toast.makeText(MainActivity.this,"No data take back from Summoners V4 Api", Toast.LENGTH_SHORT).show();
+
                         }
                         /** We then load the player icon if he return to the new activity */
                         Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+SummonerIconID+".png").placeholder(R.drawable.question_mark).into(Summoner_Icon);

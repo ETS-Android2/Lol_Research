@@ -39,15 +39,18 @@ import java.util.List;
 public class PlayerActivity extends AppCompatActivity {
 
     public static final String API_Key = "RGAPI-f7c2b622-f661-4d33-957a-9f710af6638c";
-    public static final String NBR_Match = "5";
+    public static Integer NBR_Match = 2;
 
+    EditText NBR_MatchHistorique;
     TextView SummonerName;
     ImageView SummonerIcon;
     TextView SummonerLvl;
     TextView SummonerRank;
     TextView SummonerWinrate;
     TextView SummonerTier;
+    TextView textViewHidden;
     List<Match> matchList = new ArrayList<Match>();
+
 
     private RecyclerView recyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -58,16 +61,8 @@ public class PlayerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_player);
 
-        // Our recyclerView
-        fillMatchList();
-        recyclerView = findViewById(R.id.lv_matchList);
-        recyclerView.setHasFixedSize(true);
-        // use a linear layout manager
-        layoutManager = new LinearLayoutManager(this);
-        recyclerView.setLayoutManager(layoutManager);
-        // specify an adapter
-        mAdapter = new RecycleViewAdapter(matchList);
-        recyclerView.setAdapter(mAdapter);
+        NBR_MatchHistorique = findViewById(R.id.editTextNbrHisto);
+
 
         /** Get the Intent that started this activity and extract the string */
         Intent intent = getIntent();
@@ -84,11 +79,12 @@ public class PlayerActivity extends AppCompatActivity {
         SummonerRank = findViewById(R.id.textViewRank);
         SummonerWinrate= findViewById(R.id.textViewWinrate);
         SummonerTier = findViewById(R.id.textViewTier);
-
+        textViewHidden = findViewById(R.id.textViewHidden);
         /** Set The first part of our Table Value : From the previous activity (which was connected to summonerV4 Riot's api */
         Picasso.get().load("https://ddragon.leagueoflegends.com/cdn/11.6.1/img/profileicon/"+Pass_IconID+".png").placeholder(R.drawable.question_mark).into(SummonerIcon);
         SummonerName.setText(Pass_Name);
         SummonerLvl.setText(Pass_Lvl);
+        textViewHidden.setText(Pass_AccountID);
 
         /** Instantiate the RequestQueue. */
         RequestQueue queue = Volley.newRequestQueue(PlayerActivity.this);
@@ -112,6 +108,8 @@ public class PlayerActivity extends AppCompatActivity {
 
                 } catch (JSONException e) {
                     e.printStackTrace();
+                    Toast.makeText(PlayerActivity.this,"No data take back from League V4 Api", Toast.LENGTH_SHORT).show();
+
                 }
                 if (Summoner_Tier!="") {
                     SummonerTier.setText(Summoner_Tier + " " + Summoner_Rank + " | " + Summoner_Lp + "points");
@@ -132,55 +130,119 @@ public class PlayerActivity extends AppCompatActivity {
         });
 
         queue.add(request);
-        Toast.makeText(PlayerActivity.this, Pass_AccountID, Toast.LENGTH_SHORT).show();
-        String urlHisto = "https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+Pass_AccountID+"?api_key="+API_Key+"&endIndex="+NBR_Match;
-
-        /** Request the JSON format of the summoner searched */
-         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
-         (Request.Method.GET, urlHisto, null, new Response.Listener<JSONObject>() {
-         JSONArray Match;
-         String lane = "";
-
-
-
-         @Override
-         public void onResponse(JSONObject response) {
-         try {
-            /** We stock the data that interest us */
-            Match =  response.getJSONArray("matches");
-            JSONObject Match1  = Match.getJSONObject(0);
-            lane = Match1.getString("lane");
-             Toast.makeText(PlayerActivity.this,lane, Toast.LENGTH_SHORT).show();
-         } catch (JSONException e) {
-         e.printStackTrace();
-         Toast.makeText(PlayerActivity.this,"No data take back", Toast.LENGTH_SHORT).show();
-         }
-
-         }
-         }, new Response.ErrorListener() {
-
-         @Override
-         public void onErrorResponse(VolleyError error) {
-         // TODO: Handle error
-         Toast.makeText(PlayerActivity.this,"Connexion Api Match V4 échec", Toast.LENGTH_SHORT).show();
-         }
-         });
-         queue.add(jsonObjectRequest);
-
 
 
 
 
     }
 
-    private void fillMatchList() {
-        Match match1 = new Match(0,"1","420","yo");
-        Match match2 = new Match(0,"1","420","yo");
-        Match match3 = new Match(0,"1","420","yo");
-        Match match4 = new Match(0,"1","420","yo");
-        Match match5 = new Match(0,"1","420","yo");
+    private void fillMatchList(int i,String lane,String queue) {
 
-        matchList.add(match1);
+        Match matchX = new Match(i,"https://ddragon.leagueoflegends.com/cdn/11.6.1/img/champion/Aatrox.png",queue,lane);
+        matchList.add(matchX);
+    }
+
+    public void NumberHistorique(View view)
+    {
+        /** Instantiate the RequestQueue. */
+        RequestQueue queue = Volley.newRequestQueue(PlayerActivity.this);
+        String Pass_AccountID = textViewHidden.getText().toString();
+        NBR_Match = Integer.parseInt(NBR_MatchHistorique.getText().toString());
+        Toast.makeText(PlayerActivity.this,"Historique pour "+NBR_Match+" parties", Toast.LENGTH_LONG).show();
+        /** Connexion to Match V4 for player historique */
+        String urlHisto = "https://euw1.api.riotgames.com/lol/match/v4/matchlists/by-account/"+Pass_AccountID+"?api_key="+API_Key+"&endIndex="+NBR_Match;
+
+        /** Request the JSON format of the summoner searched */
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest
+                (Request.Method.GET, urlHisto, null, new Response.Listener<JSONObject>() {
+                    JSONArray Match;
+
+
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            /** We stock the data that interest us */
+                            Match =  response.getJSONArray("matches");
+                            for (int i= 0; i<NBR_Match;i++) {
+                                JSONObject MatchX = Match.getJSONObject(i);
+                                String lane = MatchX.getString("lane");
+                                String queue = MatchX.getString("queue");
+                                String ChampionID = MatchX.getString("champion");
+                               /* String urlChampion = "https://ddragon.leagueoflegends.com/cdn/6.24.1/data/en_US/champion.json";
+                                RequestQueue queue2 = Volley.newRequestQueue(PlayerActivity.this);
+                                JsonObjectRequest jsonObjectRequest2 = new JsonObjectRequest  (Request.Method.GET, urlChampion, null, new Response.Listener<JSONObject>()
+                                {
+                                    JSONArray ChampionList;
+
+                                    @Override
+                                    public void onResponse(JSONObject responseChamp) {
+                                        try {
+                                            ChampionList= responseChamp.getJSONArray("data");
+                                            for (int i= 0; i<153;i++)
+                                            {
+                                                JSONObject ChampionX = ChampionList.getJSONObject(i);
+                                            if (ChampionX.getString("key").equals(ChampionID))
+                                            {
+                                                String ChampionName = ChampionX.getString("name");
+                                                Toast.makeText(PlayerActivity.this,ChampionName, Toast.LENGTH_SHORT).show();
+                                                i=153;
+                                            }
+                                            }
+
+
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                            Toast.makeText(PlayerActivity.this,"Api Champion Icone currently not available", Toast.LENGTH_SHORT).show();
+                                        }
+                                    }
+                                }, new Response.ErrorListener() {
+
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+
+                                        Toast.makeText(PlayerActivity.this,"Connexion Api Match V4 échec", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                                queue2.add(jsonObjectRequest2);*/
+                                if (queue.equals("420")) {
+                                    queue = "Solo Q";
+                                } else if (queue.equals("450")) {
+                                    queue = "Normal Game";
+                                } else {
+                                    queue = "Flex Q";
+                                }
+                                if (lane.equals("NONE")) {
+                                    fillMatchList(i, "Rôle : Inconnu", queue);
+                                } else {
+                                    fillMatchList(i, "Rôle : " + lane, queue);
+                                }
+                            }
+                            // Our recyclerView
+
+                            recyclerView = findViewById(R.id.lv_matchList);
+                            recyclerView.setHasFixedSize(true);
+                            // use a linear layout manager
+                            layoutManager = new LinearLayoutManager(PlayerActivity.this);
+                            recyclerView.setLayoutManager(layoutManager);
+                            // specify an adapter
+                            mAdapter = new RecycleViewAdapter(matchList, PlayerActivity.this);
+                            recyclerView.setAdapter(mAdapter);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            Toast.makeText(PlayerActivity.this,"No data take back from Match V4 Api", Toast.LENGTH_SHORT).show();
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // TODO: Handle error
+                        Toast.makeText(PlayerActivity.this,"Connexion Api Match V4 échec", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        queue.add(jsonObjectRequest);
+
     }
 }
 
