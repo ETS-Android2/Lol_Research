@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
     public static final String EXTRA_SUMMONERID = "";
     public static final String EXTRA_GAMETYPE = "";
 
-    public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
+    public static final String API_Key = "RGAPI-95b3fa13-8c22-4f7f-823a-5cda4e09458e";
 
 
     public String summId = "";

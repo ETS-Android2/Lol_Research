@@ -26,7 +26,7 @@ import java.util.List;
 public class InGameActivity extends AppCompatActivity {
 
 
-    public static final String API_Key = "RGAPI-b0c45cf7-d105-42ba-b3f1-b42ccc19b691";
+    public static final String API_Key = "RGAPI-6980c1b9-50f7-4b86-a2a0-198bea3f2978";
 
 
     TextView SummonerName;
